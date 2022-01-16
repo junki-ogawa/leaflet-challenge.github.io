@@ -47,8 +47,6 @@ function createFeatures(data) {
     }
     ////https://leafletjs.com/reference.html#circlemarker
 
-    
-    
     // Create a GeoJSON layer that contains the features array on the earthquakeData object.
     // Run the onEachFeature function once for each piece of data in the array.
     // point to layer binds marker to geojson layer
@@ -94,24 +92,22 @@ function createMap(earthquakes) {
     var legend = L.control({ position: "bottomright" });
     legend.onAdd = function() {
         var div = L.DomUtil.create("div", "info legend");
-        var limits = geojson.options.limits;
-        var colors = geojson.options.colors;
+        grades = [0, 2, 5, 10, 15, 20, 50, 100]
         var labels = [];
+        var colors= [
+            '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026'
+        ];
 
-      // Add the minimum and maximum.
-        var legendInfo = "<h3>Depth of Earthquake</h3>" +
-            "<div class=\"labels\">" +
-            "<div class=\"min\">" + limits[0] + "</div>" +
-            "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
-            "</div>";
+        var legendInfo = "<h3>Depth of Earthquake</h3>"
+            ;
 
-        div.innerHTML = legendInfo;
+        div.innerHTML=legendInfo;
 
-        limits.forEach(function(limit, index) {
-            labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
-        });
-
-        div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+        for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                "<i style='background: " + colors[i] + "'></i> " +
+                grades[i] + (grades[i + 1] ? ""  + "<br>" : "");
+            }
         return div;
     };
 
